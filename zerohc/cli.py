@@ -9,7 +9,8 @@ from typing import List
 
 from .hearth import Hearth
 from .stethoscope import Stethoscope
-from .const import BaseTask, HearthDefaults, StethoscopeDefaults
+from .const import BaseTask, HearthDefaults, StethoscopeDefaults, SystemDefaults
+from .logger import setup_logger
 
 __all__ = ("run_cli",)
 
@@ -92,12 +93,23 @@ def run_cli():
         default=StethoscopeDefaults.time_to_death
     )
 
+    # System (common) args
+    parser.add_argument(
+        "--log", "--level", "--log-level",
+        type=str,
+        help="Log level (must be one of: TRACE, DEBUG, INFO, WARNING, ERROR); case insensitive",
+        default=SystemDefaults.log_level
+    )
+
     args = parser.parse_args()
     none_services = not args.publisher and not args.listener
+
+    logger = setup_logger(args.log.upper())
     services = list()
 
     if args.publisher or none_services:
         hearth = Hearth(
+            logger=logger,
             zmq_port=args.publisher_port,
             zmq_topic=args.publisher_topic,
             hearthbeat_frequency=args.hearthbeat_frequency
@@ -119,6 +131,7 @@ def run_cli():
                 port = HearthDefaults.zmq_port
 
             stethoscope = Stethoscope(
+                logger=logger,
                 host=host,
                 zmq_port=int(port),
                 zmq_topic=topic,
