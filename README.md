@@ -17,7 +17,7 @@ When the listener determines that a host (publisher) is offline/dead, it can run
 ## Dependencies
 
 - Python >= 3.7
-- pyzmq
+- Libraries: pyzmq, loguru
 
 ## Usage example
 
@@ -38,7 +38,7 @@ python . -h 192.168.0.101 -h 192.168.0.103
 python . -h 192.168.0.102 -h 192.168.0.103
 ```
 
-You can try it also on Docker containers (with IPs 172.17.17.{1-2-3}):
+You can try it also on Docker containers (with IPs 172.55.55.{1-2-3}):
 
 ```sh
 git clone https://www.github.com/David-Lor/ZeroHealthCheck
@@ -81,7 +81,7 @@ The placeholder `%ip` gets replaced with the publisher host that is down/up.
 
 The full list or arguments for the CLI interface is the following:
 
-- General arguments:
+- Service arguments:
 	- `--publisher`/`--hearth`/`-p`: enable the hearthbeat/status publisher
 	- `--listener`/`--stethoscope`/`-s`: enable the listener
 	- If none of these are specified, will init the Publisher, and the Listener if hosts are defined
@@ -96,14 +96,19 @@ The full list or arguments for the CLI interface is the following:
 	- `--on-alive`/`--alive`/`-a`: command to execute when a host is back online
 	- on-dead and on-alive commands can use the following placeholders:
 		- `%ip`: replaced with the host ip
+- System/general arguments:
+	- `--log`/`--level`/`--log-level`: set the log level (one of: TRACE, DEBUG, INFO, WARNING, ERROR; default: `INFO`; case insensitive)
 
 ## Changelog
 
+- 0.1.1 - Add pretty logs (with loguru)
 - 0.0.1 - initial version
 
 ## TODO
 
-- Replace prints with loggers
 - Add setup.py + upload to pypi
+- Run on-dead/on-alive commands async
+- Add aliases to hosts
 - Add tests
 - Set priorities on Listeners so on-dead/on-alive commands only run once
+- Export binary (pyinstaller?)

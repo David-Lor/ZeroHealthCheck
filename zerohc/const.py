@@ -7,21 +7,24 @@ import abc
 import asyncio
 from contextlib import suppress
 
-__all__ = ("BaseTask", "HearthDefaults", "StethoscopeDefaults")
+__all__ = ("BaseTask", "HearthDefaults", "StethoscopeDefaults", "SystemDefaults")
 
 
 class HearthDefaults:
-    """Default values for Hearth publisher
-    """
+    """Default values for Hearth publisher"""
     zmq_port = 5555
     zmq_topic = "hearthbeat"
     hearthbeat_frequency = 5.0
 
 
 class StethoscopeDefaults:
-    """Default values for Stethoscope listener
-    """
+    """Default values for Stethoscope listener"""
     time_to_death = 15
+
+
+class SystemDefaults:
+    """System default values"""
+    log_level = "INFO"
 
 
 class BaseTask(abc.ABC):
