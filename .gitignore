@@ -4,3 +4,6 @@
 *.odg
 .*lock*
 *.zip
+build/
+dist/
+*.spec
