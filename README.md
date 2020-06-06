@@ -14,11 +14,6 @@ When the listener determines that a host (publisher) is offline/dead, it can run
 
 **This project is experimental and might have undesirable effects. Use it under your responsability!**
 
-## Dependencies
-
-- Python >= 3.7
-- Libraries: pyzmq, loguru
-
 ## Usage example
 
 Imagine you have three hosts where you want to run ZeroHC: HostA with IP 192.168.0.101, HostB with IP 192.168.0.102 and HostC with IP 192.168.0.103.
@@ -99,8 +94,28 @@ The full list or arguments for the CLI interface is the following:
 - System/general arguments:
 	- `--log`/`--level`/`--log-level`: set the log level (one of: TRACE, DEBUG, INFO, WARNING, ERROR; default: `INFO`; case insensitive)
 
+## Dependencies
+
+- Python >= 3.7
+- Libraries: pyzmq, loguru
+
+### Building
+
+Having pyinstaller + the required libraries installed, the following command will generate a portable, executable binary (for the current platform & arch) using pyinstaller:
+
+```bash
+pyinstaller --clean --onefile --name=zerohc __main__.py
+
+# Can also run from Makefile
+make build-binary
+```
+
+A binary for Linux-x86_64 is automatically build & upload to [Releases](https://github.com/David-Lor/ZeroHealthCheck/releases) through a Github Workflow.
+Notice that generated binaries might no be fully compatible with all installations (see https://stackoverflow.com/q/17654363/11245195).
+
 ## Changelog
 
+- 0.1.2 - Add binary build tools
 - 0.1.1 - Add pretty logs (with loguru)
 - 0.0.1 - initial version
 
@@ -111,4 +126,3 @@ The full list or arguments for the CLI interface is the following:
 - Add aliases to hosts
 - Add tests
 - Set priorities on Listeners so on-dead/on-alive commands only run once
-- Export binary (pyinstaller?)
